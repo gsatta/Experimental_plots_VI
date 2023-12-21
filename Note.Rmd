@@ -1,0 +1,26 @@
+---
+title: "Note"
+author: "Gabriele Giuseppe Antonio Satta"
+date: "2023-12-21"
+output: html_document
+---
+
+# codice per fare il commit
+
+questo documento contiene il codice da inserire nel teminal nper fare il commitsu git hub dinturti i file presemti nelle cartelle della directory del progetto
+
+```{r}
+git add -A && git commit -m 'messaggio di commit'
+```
+
+questo serve ler fare il pusch degli elemnenti
+```{r}
+git push origin master
+```
+
+
+questo serve per fare il pull
+```{r}
+git pull
+```
+
