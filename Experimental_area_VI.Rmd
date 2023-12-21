@@ -797,3 +797,66 @@ for (csv_file in INPUT_csv) {
 # Combina tutti i dataframe in un unico dataframe
 combined_dataframe <- bind_rows(dataframes_list)
 ```
+
+
+```{r}
+library(tools)
+
+rmd2jupyter <- function(filename, path = getwd()) {
+  # Constructing input and output paths
+  path_in <- file.path(path, filename)
+  path_out <- file.path(path, tools::file_path_sans_ext(filename), ".ipynb")
+  
+  # Constructing the command using shQuote for proper path handling
+  command <- paste("notedown", shQuote(path_in), "--rmagic --run >", shQuote(path_out))
+  
+  # Using system2 to capture the output and error
+  result <- system2(command, stdout = TRUE, stderr = TRUE, shell = TRUE)
+  
+  # Print the result for debugging purposes
+  print(result)
+}
+
+# Call the function with your Rmd file name
+rmd2jupyter("Experimental_area_VI.Rmd")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+# Installa jupytext da GitHub
+devtools::install_github("mwouts/jupytext")
+
+```
+
+
+```{r}
+## save as temp file
+tmp <- tempfile(fileext = ".Rmd")
+cat(rmd, file = tmp)
+
+## render html
+rmarkdown::render(tmp)
+
+## output output
+browseURL(gsub("\\.Rmd$", ".html", tmp))
+```
+
+
+```{r}
+convert_ipynb(input, output = xfun::with_ext(input, "Rmd"))
+
+```
+
