@@ -57,6 +57,7 @@ library(progress)
 library(dplyr)
 library(tidyr)
 library(lubridate)
+library(readr)
 ```
 
 ### **Crop the RGB + NIR raster files**
@@ -571,8 +572,6 @@ for (raster_index in 1:length(raster_files)) {
   }
 }
 
-# Chiudi la barra di progresso alla fine del loop
-pb$close()
 ```
 
 ```{r}
@@ -690,6 +689,11 @@ saveRDS(long_format_list, "./ELABORATION/LIST/long_format.rds" )
 ```
 
 ```{r}
+# Clean the R enviroment
+rm(list=ls())
+```
+
+```{r}
 long_format_list <- readRDS("./ELABORATION/LIST/long_format.rds")
 
 
@@ -720,17 +724,22 @@ rm(list=ls())
 ```
 
 ```{r}
-long_format_list_2 <- readRDS("./ELABORATION/LIST/long_format2.rds")
+# long_format_list_2 <- readRDS("./ELABORATION/LIST/long_format2.rds")
+# 
+# # Conversione della lista sf in un unico data frame
+# long_format_df <- bind_rows(long_format_list_2)
+# 
+# # Calcolo della media del VI per ogni COD, data e VI
+# vi_aggregated <- long_format_df %>%
+#   group_by(COD, date, VI) %>%
+#   summarise(VALUE = mean(VALUE))
+# 
+# write.csv(vi_aggregated, "./ELABORATION/CSV/vi_aggregated.csv" )
+```
 
-# Conversione della lista sf in un unico data frame
-long_format_df <- bind_rows(long_format_list_2)
-
-# Calcolo della media del VI per ogni COD, data e VI
-vi_aggregated <- long_format_df %>%
-  group_by(COD, date, VI) %>%
-  summarise(VALUE = mean(VALUE))
-
-write.csv(vi_aggregated, "./ELABORATION/CSV/vi_aggregated.csv" )
+```{r}
+# Clean the R enviroment
+rm(list=ls())
 ```
 
 -------------
@@ -761,8 +770,16 @@ vi_aggregated <- na.omit(vi_aggregated)
 
 # Salvataggio del risultato in un file CSV
 write.csv(vi_aggregated, "./ELABORATION/CSV/vi_aggregated.csv")
+
+```
+
+```{r}
+# Clean the R enviroment
+rm(list=ls())
 ```
 -------------------
+
+
 
 Nellla sezione di sopra l'obbiettivo è di creare un dataframe unico comn tutti i valori delle serie temproali di ogni indici vegetazionale e ogni pixel selezionato.
 
@@ -787,67 +804,151 @@ print(min_max_df)
 ```
 
 ```{r}
-# Elimina le righe con VI in c("GEMI", "DVI", "GDVI")
-vi_aggregated <- subset(vi_aggregated, !(VI %in% c("GEMI", "DVI", "GDVI")))
+# Assicurati che la colonna 'date' sia di tipo Date
+vi_aggregated$date <- as.Date(vi_aggregated$date)
+
+# Estrai le righe con data nel mese di agosto 2023
+vi_aggregated_august <- subset(vi_aggregated, format(date, "%Y-%m") == "2023-08")
+
+vi_aggregated_august$...1 <- NULL
+```
 
 
+```{r}
+df_class <- read_csv("./ELABORATION/CSV/symptom_assessment.csv")
+
+# Unisci i due dataframe in base alla colonna COD
+vi_aggregated_with_classes <- merge(vi_aggregated_august, df_class, by = "COD")
+
+# Aggiungi la colonna CLASS a vi_aggregated_august
+vi_aggregated_august <- mutate(vi_aggregated_august, CLASS = vi_aggregated_with_classes$CLASS)
+
+
+write.csv(vi_aggregated_august, "ELABORATION/CSV/vi_aggregated_august.csv" )
 ```
 
 ```{r}
-# # Crea il box plot
-# ggplot(vi_aggregated, aes(x = VI, y = VALUE, fill = VI)) +
-#   geom_boxplot() +
-#   labs(title = "Box Plot dei Valori per Categoria VI",
-#        x = "Categoria VI",
-#        y = "Valore")
+# Clean the R enviroment
+rm(list=ls())
 ```
 
 ```{r}
-# Creare una directory se non esiste già
-dir.create("./ELABORATION/CSV/VI_FROM_LIST", showWarnings = FALSE)
+# Creazione del modello RF
+vi_aggregated_august <- read_csv("ELABORATION/CSV/vi_aggregated_august.csv")
 
-# Inizializza la barra di avanzamento
-pb <- progress_bar$new(total = length(long_format_list), 
-                       format = "[:bar] :current/:total (:percent)")
+# elimina i valori NA
+vi_aggregated_august <- na.omit(vi_aggregated_august)
 
-# Iterare attraverso gli elementi della lista
-for (i in seq_along(long_format_list)) {
-  # Ottenere il valore dalla colonna AREA e dalla colonna numerica
-  area_value <- unique(long_format_list[[i]]$AREA)
-  vi_column_name <- names(long_format_list[[i]][, 5])[[1]]
+library(tidyr)
 
-  # Creare un nome univoco per il file CSV
-  filename <- paste0("./CSV/VI_FROM_LIST/", area_value, "_", vi_column_name,".csv")
-  
-  # Salvare l'elemento corrente come file CSV
-  write.csv(long_format_list[[i]], file = filename, row.names = FALSE)
-  
-  pb$tick()
+# Assume che il tuo dataframe sia chiamato 'vi_aggregated_august'
+vi_aggregated_august <- vi_aggregated_august %>%
+  spread(key = VI, value = VALUE)
 
-}
-```
+library(dplyr)
 
-```{r}
-# Set the csv folder directory
-csv_folder <- "./ELABORATION/CSV/VI_FROM_LIST"
+# Assume che il tuo dataframe sia chiamato 'vi_aggregated_august'
+vi_aggregated_august <- vi_aggregated_august %>%
+  group_by(COD) %>%
+  summarise_all(list(~ifelse(all(is.na(.)), NA, first(na.omit(.)))))
 
-# Get the list of csv files in the folder
-INPUT_csv <- list.files(path = csv_folder, pattern = "\\.csv$", full.names = TRUE)
+vi_aggregated_august$...1 <- NULL
 
-# Inizializza una lista per immagazzinare i dataframe
-dataframes_list <- list()
+vi_aggregated_august$...2 <- NULL
 
-# Itera attraverso i file CSV e leggi ciascun file
-for (csv_file in INPUT_csv) {
-  # Leggi il file CSV
-  current_df <- read_csv(csv_file)
-  
-  # Aggiungi il dataframe alla lista
-  dataframes_list[[length(dataframes_list) + 1]] <- current_df
-}
+vi_aggregated_august$geom <- NULL
 
-# Combina tutti i dataframe in un unico dataframe
-combined_dataframe <- bind_rows(dataframes_list)
+vi_aggregated_august$date <- NULL
+
+library(caret)
+library(randomForest)
+
+vi_aggregated_august$CLASS <- factor(vi_aggregated_august$CLASS)
+
+set.seed(123)  # Imposta il seed per rendere i risultati riproducibili
+
+# Crea un vettore di indici casuali
+train <- sample(nrow(vi_aggregated_august), (nrow(vi_aggregated_august) * 0.8))
+
+# Seleziona le righe corrispondenti agli indici casuali
+train_data <- vi_aggregated_august[train, ]
+
+# Conta il numero di elementi per ogni classe nella colonna "CLASS"
+class_counts <- table(train_data$CLASS)
+
+# Stampa i risultati
+print(class_counts)
+
+# Calcola gli indici per il test (complemento di train)
+test <- setdiff(1:nrow(vi_aggregated_august), train)
+
+# Seleziona le righe corrispondenti agli indici del test
+test_data <- vi_aggregated_august[test, ]
+
+index_names <- c("BLUE", "GREEN","RED", "NIR", "DVI", "EVI", "GCI", "GDVI", 
+                 "GEMI", "GNDVI", "GOSAVI", "GRVI", "GSAVI", "IPVI", "MSAVI2",
+                 "MSR", "NDVI", "NDWI", "NLI", "OSAVI", "RDVI", "SAVI", "SR",
+                 "VARI")
+
+
+rf_fit <- randomForest(CLASS ~ ., 
+                       data = train_data,
+                       importance=TRUE,
+                       proximity=TRUE)
+
+## Look at variable importance:
+round(importance(rf_fit), 2)
+
+
+# "http://www.r-project.it/_book/random-forest-rf-1.html"
+
+print(rf_fit)
+
+plot(rf_fit)
+
+
+varImpPlot(rf_fit)
+
+#############
+## Do MDS on 1 - proximity:
+vi.mds <- cmdscale(1 - rf_fit$proximity, eig=TRUE)
+op <- par(pty="s")
+
+pairs(cbind(vi_aggregated_august[,3:4], rf_fit$points), cex=0.6, gap=0,
+      col=c("red", "green", "blue")[as.numeric(vi_aggregated_august$CLASS)],
+      main="Iris Data: Predictors and MDS of Proximity Based on RandomForest")
+
+
+#######
+MDSplot(rf_fit, vi_aggregated_august$CLASS)
+
+
+
+# Effettua le previsioni sul set di test
+predictions <- predict(rf_fit, test_data)
+
+# Valuta le prestazioni del modello (ad esempio, usando la matrice di confusione)
+conf_matrix <- table(predictions, test_data$CLASS)
+print(conf_matrix)
+
+# Calcola l'accuratezza del modello
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+print(paste("Accuracy:", accuracy))
+
+
+######
+
+# Sostituisci con l'algoritmo appropriato per il tuo problema
+model <- train(CLASS ~ EVI + NDVI, data = train_data, method = "rf")
+
+nuovi_dati <- select(tuo_dataframe_con_i_nuovi_dati, VALUE, altre_colonne_di_interesse)
+predictions <- predict(model, newdata = data_for_model)
+
+# Valutazione del modello di classificazione
+conf_matrix <- confusionMatrix(predictions, data_for_model$CLASS)
+
+print(conf_matrix)
+
 ```
 
 
