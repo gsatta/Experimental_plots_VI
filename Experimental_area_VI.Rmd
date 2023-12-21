@@ -5,49 +5,49 @@ date: "2023-12-11"
 output: html_document
 ---
 
-+-----------------+--------------+
-| Area names      | Acronym      |
-+=================+==============+
-| Sos Cuzzos      | SC           |
-+-----------------+--------------+
-| Biarzu          | BZ           |
-+-----------------+--------------+
-| Pardulette      | PL           |
-+-----------------+--------------+
-| Tiriedu         | TR           |
-+-----------------+--------------+
-| Santa Cristina  | ST           |
-+-----------------+--------------+
-| Funtana Sassa   | FS           |
-+-----------------+--------------+
-| Monte Scuccurau | MS           |
-+-----------------+--------------+
-| Pont'ezzu       | PE           |
-+-----------------+--------------+
-| Iscala Erveghe  | IE           |
-+-----------------+--------------+
-| Magrina e Figu  | MF           |
-+-----------------+--------------+
++-----------------+---------------+
+| Area names      | Acronym       |
++=================+===============+
+| Sos Cuzzos      | SC            |
++-----------------+---------------+
+| Biarzu          | BZ            |
++-----------------+---------------+
+| Pardulette      | PL            |
++-----------------+---------------+
+| Tiriedu         | TR            |
++-----------------+---------------+
+| Santa Cristina  | ST            |
++-----------------+---------------+
+| Funtana Sassa   | FS            |
++-----------------+---------------+
+| Monte Scuccurau | MS            |
++-----------------+---------------+
+| Pont'ezzu       | PE            |
++-----------------+---------------+
+| Iscala Erveghe  | IE            |
++-----------------+---------------+
+| Magrina e Figu  | MF            |
++-----------------+---------------+
 
-+------------------------------+--------------------+--------------------+
-| Product                      | Application        | Acronym            |
-+==============================+====================+====================+
-| Kalex                        | Leaf               | KAL                |
-+------------------------------+--------------------+--------------------+
-| Kalex EVO                    | Leaf               | KEL                |
-+------------------------------+--------------------+--------------------+
-| Aliette                      | Leaf               | ALL                |
-+------------------------------+--------------------+--------------------+
-| Kalex                        | Endotherapy        | KAE                |
-+------------------------------+--------------------+--------------------+
-| Kalex EVO                    | Endotherapy        | KEE                |
-+------------------------------+--------------------+--------------------+
-| Ridomil                      | Soil               | RIS                |
-+------------------------------+--------------------+--------------------+
-| Basalt flour + shield effect | Soil               | BSS                |
-+------------------------------+--------------------+--------------------+
-| Control                      | \-                 | CTR                |
-+------------------------------+--------------------+--------------------+
++------------------------------+-------------------+-------------------+
+| Product                      | Application       | Acronym           |
++==============================+===================+===================+
+| Kalex                        | Leaf              | KAL               |
++------------------------------+-------------------+-------------------+
+| Kalex EVO                    | Leaf              | KEL               |
++------------------------------+-------------------+-------------------+
+| Aliette                      | Leaf              | ALL               |
++------------------------------+-------------------+-------------------+
+| Kalex                        | Endotherapy       | KAE               |
++------------------------------+-------------------+-------------------+
+| Kalex EVO                    | Endotherapy       | KEE               |
++------------------------------+-------------------+-------------------+
+| Ridomil                      | Soil              | RIS               |
++------------------------------+-------------------+-------------------+
+| Basalt flour + shield effect | Soil              | BSS               |
++------------------------------+-------------------+-------------------+
+| Control                      | \-                | CTR               |
++------------------------------+-------------------+-------------------+
 
 ```{r}
 # Load the necessary packages
@@ -242,6 +242,12 @@ for (image_file in image_files) {
 
 # Close the progress bar
 progress_bar$terminate()
+
+```
+
+```{r}
+# Clean the R enviroment
+rm(list=ls())
 ```
 
 This is the list of Vegetation Indices used:
@@ -254,7 +260,7 @@ This is the list of Vegetation Indices used:
 |                                                |          | $$                                                                  |          |
 +------------------------------------------------+----------+---------------------------------------------------------------------+----------+
 | Enhanced Vegetation Indexx                     | EVI      | $$                                                                  |          |
-|                                                |          | 2.5 + \frac{NIR - R)} {(NIR + 6 * R - 7.5 - B + 1 )}                |          |
+|                                                |          | 2.5 + \frac{(NIR - R)} {(NIR + 6 * R - 7.5 - B + 1 )}               |          |
 |                                                |          | $$                                                                  |          |
 +------------------------------------------------+----------+---------------------------------------------------------------------+----------+
 | Green Chlorophyll Index                        | GCI      | $$                                                                  |          |
@@ -340,28 +346,29 @@ library(sf)
 library(readr)
 
 # Carica il file CSV con le date
-date_info <- read_csv("./CSV/date.csv")
+date_info <- read_csv("./ELABORATION/CSV/date.csv")
 
 date <- date_info$date
 
 # Carica il file delle chiome NDVI
-crowns <- st_read("./SHP/CHIOME_ANALISI_NDVI_2_correct.shp")
+crowns <- st_read("./ELABORATION/SHP/crowns_class.shp")
 
 # Trova i nomi unici delle aree
 unique_aree <- unique(crowns$AREA)
 
 # Definisci le variabili index_vegetations e areas
-index_vegetations <- c("DVI", "EVI", "GCI", "GDVI", "GEMI", "GNDVI", "GOSAVI",
-                       "GRVI", "GSAVI", "IPVI", "MSAVI2", "MSR", "NDVI", "NDWI",
-                       "NLI", "OSAVI","RDVI", "SAVI", "SR", "VARI")
+index_vegetations <- c("BLUE", "GREEN","RED", "NIR", "DVI", "EVI", "GCI", "GDVI", 
+                 "GEMI", "GNDVI", "GOSAVI", "GRVI", "GSAVI", "IPVI", "MSAVI2",
+                 "MSR", "NDVI", "NDWI", "NLI", "OSAVI", "RDVI", "SAVI", "SR",
+                 "VARI")
 
 areas <- unique(crowns$AREA)
 
 # Imposta la directory degli indici vegetazionali
-vi_directory <- "./RASTER/VI"
+vi_directory <- "./ELABORATION/RASTER/VI"
 
 # Nuova directory per i raster multilayer
-output_directory <- "./RASTER/VI_MERGED"
+output_directory <- "./ELABORATION/RASTER/VI_MERGED"
 
 # Inizializza la barra di progresso
 pb <- progress_bar$new(
@@ -393,12 +400,14 @@ for (index_vegetation in index_vegetations) {
   }
 }
 
-# Chiudi la barra di progresso
-pb$close()
-
 # Stampa un messaggio di completamento
 cat("Processo completato con successo.")
 
+```
+
+```{r}
+# Clean the R enviroment
+rm(list=ls())
 ```
 
 Una volta completato il calcolo per ogni area e ogni VI e creato dei multilayer raster per area e VI, devo anadare a selezionare solamente i pixel che stanno dentro le chiome per almeno i 2/3 della loro estensione. Quindi prendo il procedimento utilizzato nei precedenti script e lo applico a questo caso.
@@ -414,11 +423,11 @@ library(raster)
 
 ```{r}
 # Carica il file delle chiome NDVI
-crowns <- st_read("./SHP/CHIOME_ANALISI_NDVI_2_correct.shp")
+crowns <- st_read("./ELABORATION/SHP/crowns_class.shp")
 ```
 
 ```{r}
-VI_directory <- "./RASTER/VI_MERGED"
+VI_directory <- "./ELABORATION/RASTER/VI_MERGED"
 ```
 
 ### Extraxct the NDVI pixels
@@ -450,9 +459,9 @@ get_area_name_raster <- function(file_path) {
 }
 
 # Set the path to the shapefile and raster file
-shapefile_folder  <- "./SHP/crowns_areas"
-raster_folder  <- "./RASTER/VI_MERGED"
-output_folder <- "./RASTER/VI_EXTRACTED"
+shapefile_folder  <- "./ELABORATION/SHP/crowns_areas"
+raster_folder  <- "./ELABORATION/RASTER/VI_MERGED"
+output_folder <- "./ELABORATION/RASTER/VI_EXTRACTED"
 
 # List files in the folders
 raster_files <- list.files(raster_folder, pattern = ".tif$", full.names = TRUE)
@@ -567,8 +576,13 @@ pb$close()
 ```
 
 ```{r}
+# Clean the R enviroment
+rm(list=ls())
+```
+
+```{r}
 # Set the input folder of the extracted ndvi files
-INPUT_folder <- "./RASTER/VI_EXTRACTED"
+INPUT_folder <- "./ELABORATION/RASTER/VI_EXTRACTED"
 
 # Get the list of SHP files in the folder
 INPUT_shp <- list.files(path = INPUT_folder, pattern = "\\.gpkg$", full.names = TRUE)
@@ -592,10 +606,10 @@ shp_list <- lapply(INPUT_shp, function(file) {
 })
 
 # Save the list
-saveRDS(shp_list, "./LIST/shp.rds")
+saveRDS(shp_list, "./ELABORATION/LIST/shp.rds")
 
 # Load the list
-shp_list2 <- readRDS("./LIST/shp.rds")
+shp_list2 <- readRDS("./ELABORATION/LIST/shp.rds")
 
 # Create a progress bar with a total number of elements in shp_list
 pb <- progress_bar$new(total = length(shp_list2), format = "[:bar] :percent :eta")
@@ -616,15 +630,22 @@ for (i in seq_along(shp_list2)) {
 }
 
 # Save the list
-saveRDS(shp_list2, "./LIST/shp2.rds" )
+saveRDS(shp_list2, "./ELABORATION/LIST/shp2.rds" )
 
 ```
 
 ```{r}
-shp_list3 <- readRDS("./LIST/shp2.rds")
+# Clean the R enviroment
+rm(list=ls())
+```
+
+------------------------------------------------------------------------------
+
+```{r}
+shp_list3 <- readRDS("./ELABORATION/LIST/shp2.rds")
 
 # # Rimuovi le  colonne non necessarie
-cols_to_exclude <- c("ID", "raster_file_name")
+cols_to_exclude <- c("ID", "raster_file_name", "TREAT")
 # 
 # Inizializza la barra di avanzamento
 pb <- progress_bar$new(total = length(shp_list3), 
@@ -647,7 +668,7 @@ process_shapefile <- function(shp, pb) {
   result <- shp %>%
     dplyr::select(-one_of(cols_to_exclude)) %>%
     pivot_longer(
-      cols = -c(geom, CODICE_, AREA),
+      cols = -c(geom, COD, AREA),
       names_to = "date",
       values_to = label
     ) %>%
@@ -663,16 +684,13 @@ long_format_list <- lapply(shp_list3, function(shp) {
   process_shapefile(shp, pb)
 })
 
-# Change the CODICE colum name in COD for each object sf iside the list.
-for (i in seq_along(long_format_list)) {
-  long_format_list[[i]] <- long_format_list[[i]] %>%
-    rename(COD = CODICE_)
-}
-
 # Save the long format list
-saveRDS(long_format_list, "./LIST/long_format.rds" )
+saveRDS(long_format_list, "./ELABORATION/LIST/long_format.rds" )
 
-long_format_list <- readRDS("./LIST/long_format.rds")
+```
+
+```{r}
+long_format_list <- readRDS("./ELABORATION/LIST/long_format.rds")
 
 
 library(dplyr)
@@ -693,11 +711,16 @@ long_format_list_2 <- lapply(long_format_list, process_element)
 
 
 # Save the long format list
-saveRDS(long_format_list_2, "./LIST/long_format2.rds")
+saveRDS(long_format_list_2, "./ELABORATION/LIST/long_format2.rds")
 ```
 
 ```{r}
-long_format_list_2 <- readRDS("./LIST/long_format2.rds")
+# Clean the R enviroment
+rm(list=ls())
+```
+
+```{r}
+long_format_list_2 <- readRDS("./ELABORATION/LIST/long_format2.rds")
 
 # Conversione della lista sf in un unico data frame
 long_format_df <- bind_rows(long_format_list_2)
@@ -707,19 +730,48 @@ vi_aggregated <- long_format_df %>%
   group_by(COD, date, VI) %>%
   summarise(VALUE = mean(VALUE))
 
-write.csv(vi_aggregated, "./CSV/vi_aggregated.csv" )
+write.csv(vi_aggregated, "./ELABORATION/CSV/vi_aggregated.csv" )
 ```
 
-Nellla sezione di sopra l'obbiettivo è di creare un dataframe unico comn tutti i valori delle serie temproali di ogni indici vegetazionale e ogni pixel selezionato.
+-------------
 
-SI DEVE ANCORA SALVARE IL FILE vi_aggregated
+```{r}
+library(data.table)
+library(parallel)
+
+# Impostazione del numero di core desiderato
+num_cores <- 4  # Modifica a seconda del tuo hardware
+
+# Caricamento della lista sf e conversione in data frame in parallelo
+long_format_df <- mclapply(
+  readRDS("./ELABORATION/LIST/long_format2.rds"),
+  bind_rows,
+  mc.cores = num_cores
+) %>%
+  bind_rows()
+
+# Conversione del data frame in un data.table
+long_format_dt <- as.data.table(long_format_df)
+
+# Calcolo della media del VI per ogni COD, data, e VI in parallelo
+vi_aggregated <- long_format_dt[, .(VALUE = mean(VALUE)), by = .(COD, date, VI)]
+
+# O alternativamente, puoi usare la funzione na.omit()
+vi_aggregated <- na.omit(vi_aggregated)
+
+# Salvataggio del risultato in un file CSV
+write.csv(vi_aggregated, "./ELABORATION/CSV/vi_aggregated.csv")
+```
+-------------------
+
+Nellla sezione di sopra l'obbiettivo è di creare un dataframe unico comn tutti i valori delle serie temproali di ogni indici vegetazionale e ogni pixel selezionato.
 
 ```{r}
 # Set the scipen option to hight value to eliminate the esponential notation of the values
 options(scipen = 999)
 
 
-vi_aggregated <- read_csv("./CSV/vi_aggregated.csv")
+vi_aggregated <- read_csv("./ELABORATION/CSV/vi_aggregated.csv")
 ```
 
 ```{r}
@@ -742,17 +794,17 @@ vi_aggregated <- subset(vi_aggregated, !(VI %in% c("GEMI", "DVI", "GDVI")))
 ```
 
 ```{r}
-# Crea il box plot
-ggplot(vi_aggregated, aes(x = VI, y = VALUE, fill = VI)) +
-  geom_boxplot() +
-  labs(title = "Box Plot dei Valori per Categoria VI",
-       x = "Categoria VI",
-       y = "Valore")
+# # Crea il box plot
+# ggplot(vi_aggregated, aes(x = VI, y = VALUE, fill = VI)) +
+#   geom_boxplot() +
+#   labs(title = "Box Plot dei Valori per Categoria VI",
+#        x = "Categoria VI",
+#        y = "Valore")
 ```
 
 ```{r}
 # Creare una directory se non esiste già
-dir.create("./CSV/VI_FROM_LIST", showWarnings = FALSE)
+dir.create("./ELABORATION/CSV/VI_FROM_LIST", showWarnings = FALSE)
 
 # Inizializza la barra di avanzamento
 pb <- progress_bar$new(total = length(long_format_list), 
@@ -777,7 +829,7 @@ for (i in seq_along(long_format_list)) {
 
 ```{r}
 # Set the csv folder directory
-csv_folder <- "./CSV/VI_FROM_LIST"
+csv_folder <- "./ELABORATION/CSV/VI_FROM_LIST"
 
 # Get the list of csv files in the folder
 INPUT_csv <- list.files(path = csv_folder, pattern = "\\.csv$", full.names = TRUE)
@@ -798,65 +850,4 @@ for (csv_file in INPUT_csv) {
 combined_dataframe <- bind_rows(dataframes_list)
 ```
 
-
-```{r}
-library(tools)
-
-rmd2jupyter <- function(filename, path = getwd()) {
-  # Constructing input and output paths
-  path_in <- file.path(path, filename)
-  path_out <- file.path(path, tools::file_path_sans_ext(filename), ".ipynb")
-  
-  # Constructing the command using shQuote for proper path handling
-  command <- paste("notedown", shQuote(path_in), "--rmagic --run >", shQuote(path_out))
-  
-  # Using system2 to capture the output and error
-  result <- system2(command, stdout = TRUE, stderr = TRUE, shell = TRUE)
-  
-  # Print the result for debugging purposes
-  print(result)
-}
-
-# Call the function with your Rmd file name
-rmd2jupyter("Experimental_area_VI.Rmd")
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r}
-# Installa jupytext da GitHub
-devtools::install_github("mwouts/jupytext")
-
-```
-
-
-```{r}
-## save as temp file
-tmp <- tempfile(fileext = ".Rmd")
-cat(rmd, file = tmp)
-
-## render html
-rmarkdown::render(tmp)
-
-## output output
-browseURL(gsub("\\.Rmd$", ".html", tmp))
-```
-
-
-```{r}
-convert_ipynb(input, output = xfun::with_ext(input, "Rmd"))
-
-```
 
