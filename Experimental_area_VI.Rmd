@@ -233,92 +233,92 @@ rm(list=ls())
 
 This is the list of Vegetation Indices used:
 
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Spectral Vegetation Index                      | Acr    | Equation                                                            | Ref |
-+================================================+========+=====================================================================+=====+
-| Difference Vegetation Index                    | DVI    | $$                                                                  |     |
-|                                                |        | NIR - R                                                             |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Enhanced Vegetation Indexx                     | EVI    | $$                                                                  |     |
-|                                                |        | 2.5 + \frac{(NIR - R)} {(NIR + 6 * R - 7.5 - B + 1 )}               |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Green Chlorophyll Index                        | GCI    | $$                                                                  |     |
-|                                                |        | \frac {NIR}{G}-1                                                    |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Green Difference Vegetation Index              | GDVI   | $$                                                                  |     |
-|                                                |        | NIR - G                                                             |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Global Environmental Monitoring Index          | GEMI   | $$                                                                  |     |
-|                                                |        | eta + (1 - 0.25 * eta) - \frac{R - 0.125}{1-R}                      |     |
-|                                                |        | $$                                                                  |     |
-|                                                |        |                                                                     |     |
-|                                                |        | $$ eta = \frac{2(NIR^2 - R^2) + 1.5 * NIR + 0.5 * R}{NIR + R + 0.5} |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Green Normalized Difference Vegetation Index   | GNDVI  | $$                                                                  |     |
-|                                                |        | \frac{NIR - G} {NIR + G}                                            |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Green Optimized Soil Adjusted Vegetation Index | GOSAVI | $$                                                                  |     |
-|                                                |        | \frac{NIR - G} {NIR + G + 0.16}                                     |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Green Ratio Vegetation Index                   | GRVI   | $$                                                                  |     |
-|                                                |        | \frac{NIR}{G}                                                       |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Green Soil Adjusted Vegetation Index           | GSAVI  | $$                                                                  |     |
-|                                                |        | 1.5 * \frac{NIR - G}{NIR + G + 0.5}                                 |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Infrared Percentage Vegetation Index           | IPVI   | $$                                                                  |     |
-|                                                |        | \frac{NIR}{NIR + R}                                                 |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Modified Soil Adjusted Vegetation Index        | MSAVI2 | $$                                                                  |     |
-|                                                |        | \frac{2 * NIR + 1 - \sqrt{(2*NIR + 1)^2 - 8(NIR - R)}}{2}           |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Modified Simple Ratio                          | MSR    | $$                                                                  |     |
-|                                                |        | \frac{\frac{NIR}{R} - 1 }{(\sqrt{\frac{NIR}{R})} + 1 }              |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Normalized Difference Vegetation Index         | NDVI   | $$                                                                  |     |
-|                                                |        | \frac{NIR - R}{NIR + R}                                             |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Normalized Difference Water Index              | NDWI   | $$                                                                  |     |
-|                                                |        | \frac{G - NIR}{G + NIR}                                             |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Non-Linear Index                               | NLI    | $$                                                                  |     |
-|                                                |        | \frac{NIR^2 - R}{NIR^2 + R}                                         |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Optimized Soil Adjusted Vegetation Index       | OSAVI  | $$                                                                  |     |
-|                                                |        | \frac{NIR - R}{NIR + R + 0.16}                                      |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Renormalized Difference Vegetation Index       | RDVI   | $$                                                                  |     |
-|                                                |        | \frac{NIR - R}{\sqrt{NIR + R}}                                      |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Soil Adjusted Vegetation Index                 | SAVI   | $$                                                                  |     |
-|                                                |        | \frac{1.5 * (NIR - R)}{(NIR  + R + 0.5)}                            |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Simple Ratio                                   | SR     | $$                                                                  |     |
-|                                                |        | \frac{NIR}{R}                                                       |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
-| Visible Atmospherically Resistant Index        | VARI   | $$                                                                  |     |
-|                                                |        | \frac{G-R}{G+R-B}                                                   |     |
-|                                                |        | $$                                                                  |     |
-+------------------------------------------------+--------+---------------------------------------------------------------------+-----+
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Spectral Vegetation Index                      | Acr     | Equation                                                            | Ref     |
++================================================+=========+=====================================================================+=========+
+| Difference Vegetation Index                    | DVI     | $$                                                                  |         |
+|                                                |         | NIR - R                                                             |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Enhanced Vegetation Indexx                     | EVI     | $$                                                                  |         |
+|                                                |         | 2.5 + \frac{(NIR - R)} {(NIR + 6 * R - 7.5 - B + 1 )}               |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Green Chlorophyll Index                        | GCI     | $$                                                                  |         |
+|                                                |         | \frac {NIR}{G}-1                                                    |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Green Difference Vegetation Index              | GDVI    | $$                                                                  |         |
+|                                                |         | NIR - G                                                             |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Global Environmental Monitoring Index          | GEMI    | $$                                                                  |         |
+|                                                |         | eta + (1 - 0.25 * eta) - \frac{R - 0.125}{1-R}                      |         |
+|                                                |         | $$                                                                  |         |
+|                                                |         |                                                                     |         |
+|                                                |         | $$ eta = \frac{2(NIR^2 - R^2) + 1.5 * NIR + 0.5 * R}{NIR + R + 0.5} |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Green Normalized Difference Vegetation Index   | GNDVI   | $$                                                                  |         |
+|                                                |         | \frac{NIR - G} {NIR + G}                                            |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Green Optimized Soil Adjusted Vegetation Index | GOSAVI  | $$                                                                  |         |
+|                                                |         | \frac{NIR - G} {NIR + G + 0.16}                                     |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Green Ratio Vegetation Index                   | GRVI    | $$                                                                  |         |
+|                                                |         | \frac{NIR}{G}                                                       |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Green Soil Adjusted Vegetation Index           | GSAVI   | $$                                                                  |         |
+|                                                |         | 1.5 * \frac{NIR - G}{NIR + G + 0.5}                                 |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Infrared Percentage Vegetation Index           | IPVI    | $$                                                                  |         |
+|                                                |         | \frac{NIR}{NIR + R}                                                 |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Modified Soil Adjusted Vegetation Index        | MSAVI2  | $$                                                                  |         |
+|                                                |         | \frac{2 * NIR + 1 - \sqrt{(2*NIR + 1)^2 - 8(NIR - R)}}{2}           |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Modified Simple Ratio                          | MSR     | $$                                                                  |         |
+|                                                |         | \frac{\frac{NIR}{R} - 1 }{(\sqrt{\frac{NIR}{R})} + 1 }              |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Normalized Difference Vegetation Index         | NDVI    | $$                                                                  |         |
+|                                                |         | \frac{NIR - R}{NIR + R}                                             |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Normalized Difference Water Index              | NDWI    | $$                                                                  |         |
+|                                                |         | \frac{G - NIR}{G + NIR}                                             |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Non-Linear Index                               | NLI     | $$                                                                  |         |
+|                                                |         | \frac{NIR^2 - R}{NIR^2 + R}                                         |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Optimized Soil Adjusted Vegetation Index       | OSAVI   | $$                                                                  |         |
+|                                                |         | \frac{NIR - R}{NIR + R + 0.16}                                      |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Renormalized Difference Vegetation Index       | RDVI    | $$                                                                  |         |
+|                                                |         | \frac{NIR - R}{\sqrt{NIR + R}}                                      |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Soil Adjusted Vegetation Index                 | SAVI    | $$                                                                  |         |
+|                                                |         | \frac{1.5 * (NIR - R)}{(NIR  + R + 0.5)}                            |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Simple Ratio                                   | SR      | $$                                                                  |         |
+|                                                |         | \frac{NIR}{R}                                                       |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
+| Visible Atmospherically Resistant Index        | VARI    | $$                                                                  |         |
+|                                                |         | \frac{G-R}{G+R-B}                                                   |         |
+|                                                |         | $$                                                                  |         |
++------------------------------------------------+---------+---------------------------------------------------------------------+---------+
 
 ```{r}
 library(progress)
@@ -782,7 +782,27 @@ print(min_max_df)
 
 ```
 
+# Random Forest modelling
+
+## Data preparation
+
+Posso usare questo tipo di classificazione dei dati:
+
++-------------------+-------------+-------------------------------------------+
+| Trasparency Class | class_model | Final purposes                            |
++===================+=============+===========================================+
+| 0 - 1             | H           | Training data for the "Healthy" Class     |
++-------------------+-------------+-------------------------------------------+
+| 2 - 3 - 4         | S           | Training data for the "Symptomatic" Class |
++-------------------+-------------+-------------------------------------------+
+
 ```{r}
+# Set the scipen option to hight value to eliminate the esponential notation of the values
+options(scipen = 999)
+
+
+vi_aggregated <- read_csv("./ELABORATION/CSV/vi_aggregated.csv")
+
 # Assicurati che la colonna 'date' sia di tipo Date
 vi_aggregated$date <- as.Date(vi_aggregated$date)
 
@@ -802,6 +822,14 @@ vi_aggregated_with_classes <- merge(vi_aggregated_august, df_class, by = "COD")
 vi_aggregated_august <- mutate(vi_aggregated_august, CLASS = vi_aggregated_with_classes$CLASS)
 
 
+# Aggiungi la nuova colonna "CLASS_MODEL" in base ai criteri specificati
+vi_aggregated_august <- vi_aggregated_august %>%
+  mutate(CLASS_MODEL = case_when(
+    CLASS %in% c(0, 1) ~ "H",
+    CLASS %in% c(2, 3, 4) ~ "S",
+    TRUE ~ NA_character_  # Se nessuna delle condizioni è soddisfatta, imposta a NA
+  ))
+
 write.csv(vi_aggregated_august, "ELABORATION/CSV/vi_aggregated_august.csv" )
 ```
 
@@ -810,20 +838,23 @@ write.csv(vi_aggregated_august, "ELABORATION/CSV/vi_aggregated_august.csv" )
 rm(list=ls())
 ```
 
+## Select the train data
+
 ```{r}
-# Creazione del modello RF
+library(dplyr)
+library(tidyr)
+```
+
+```{r}
+# Load the file of the class values amd VI values
 vi_aggregated_august <- read_csv("ELABORATION/CSV/vi_aggregated_august.csv")
 
 # elimina i valori NA
 vi_aggregated_august <- na.omit(vi_aggregated_august)
 
-library(tidyr)
-
 # Assume che il tuo dataframe sia chiamato 'vi_aggregated_august'
 vi_aggregated_august <- vi_aggregated_august %>%
   spread(key = VI, value = VALUE)
-
-library(dplyr)
 
 # Assume che il tuo dataframe sia chiamato 'vi_aggregated_august'
 vi_aggregated_august <- vi_aggregated_august %>%
@@ -841,7 +872,7 @@ vi_aggregated_august$date <- NULL
 library(caret)
 library(randomForest)
 
-vi_aggregated_august$CLASS <- factor(vi_aggregated_august$CLASS)
+vi_aggregated_august$CLASS_MODEL <- factor(vi_aggregated_august$CLASS_MODEL)
 
 set.seed(123)  # Imposta il seed per rendere i risultati riproducibili
 
@@ -851,11 +882,17 @@ train <- sample(nrow(vi_aggregated_august), (nrow(vi_aggregated_august) * 0.8))
 # Seleziona le righe corrispondenti agli indici casuali
 train_data <- vi_aggregated_august[train, ]
 
+train_data$...1 <- NULL
+
 # Conta il numero di elementi per ogni classe nella colonna "CLASS"
-class_counts <- table(train_data$CLASS)
+class_counts <- table(train_data$CLASS_MODEL)
 
 # Stampa i risultati
 print(class_counts)
+```
+
+```{r}
+
 
 # Calcola gli indici per il test (complemento di train)
 test <- setdiff(1:nrow(vi_aggregated_august), train)
@@ -869,7 +906,7 @@ index_names <- c("BLUE", "GREEN","RED", "NIR", "DVI", "EVI", "GCI", "GDVI",
                  "VARI")
 
 
-rf_fit <- randomForest(CLASS ~ ., 
+rf_fit <- randomForest(CLASS_MODEL ~ . - CLASS - COD, 
                        data = train_data,
                        importance=TRUE,
                        proximity=TRUE)
@@ -887,18 +924,8 @@ plot(rf_fit)
 
 varImpPlot(rf_fit)
 
-#############
-## Do MDS on 1 - proximity:
-vi.mds <- cmdscale(1 - rf_fit$proximity, eig=TRUE)
-op <- par(pty="s")
-
-pairs(cbind(vi_aggregated_august[,3:4], rf_fit$points), cex=0.6, gap=0,
-      col=c("red", "green", "blue")[as.numeric(vi_aggregated_august$CLASS)],
-      main="Iris Data: Predictors and MDS of Proximity Based on RandomForest")
-
-
-#######
-MDSplot(rf_fit, vi_aggregated_august$CLASS)
+######
+MDSplot(rf_fit, vi_aggregated_august$CLASS_MODEL)
 
 
 
@@ -906,7 +933,7 @@ MDSplot(rf_fit, vi_aggregated_august$CLASS)
 predictions <- predict(rf_fit, test_data)
 
 # Valuta le prestazioni del modello (ad esempio, usando la matrice di confusione)
-conf_matrix <- table(predictions, test_data$CLASS)
+conf_matrix <- table(predictions, test_data$CLASS_MODEL)
 print(conf_matrix)
 
 # Calcola l'accuratezza del modello
@@ -916,15 +943,21 @@ print(paste("Accuracy:", accuracy))
 
 ######
 
-# Sostituisci con l'algoritmo appropriato per il tuo problema
-model <- train(CLASS ~ EVI + NDVI, data = train_data, method = "rf")
+# Sostituisci "CLASS_MODEL" con il nome corretto della colonna target che vuoi prevedere
+# Utilizziamo l'approccio positivo per selezionare le colonne da mantenere
+model <- train(CLASS_MODEL ~ ., data = train_data[, colnames(train_data) %in% c("CLASS_MODEL", "BLUE", "DVI", "EVI", "GCI", "GDVI", "GEMI", "GNDVI", "GOSAVI", "GREEN", "GRVI", "GSAVI", "IPVI", "MSAVI2", "MSR", "NDVI", "NDWI", "NIR", "NLI", "OSAVI", "RDVI", "RED", "SAVI", "SR", "VARI")], method = "rf")
 
-nuovi_dati <- select(tuo_dataframe_con_i_nuovi_dati, VALUE, altre_colonne_di_interesse)
+# Creiamo un nuovo set di dati per le previsioni
+# Assicurati che il dataframe "vi_aggregated_august" contenga le stesse colonne presenti nel set di addestramento
+data_for_model <- vi_aggregated_august[, colnames(train_data)]
+
+# Fai previsioni sul nuovo set di dati
 predictions <- predict(model, newdata = data_for_model)
 
 # Valutazione del modello di classificazione
-conf_matrix <- confusionMatrix(predictions, data_for_model$CLASS)
+conf_matrix <- confusionMatrix(predictions, data_for_model$CLASS_MODEL)
 
+# Stampa la matrice di confusione
 print(conf_matrix)
 
 ```
