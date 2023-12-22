@@ -1,3 +1,0 @@
-pip install jupytext
-
-jupytext --to notebook tuo_file.Rmd
