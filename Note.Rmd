@@ -24,3 +24,25 @@ questo serve per fare il pull
 git pull
 ```
 
+
+
+# Cocice per commit e push di file di grandi dimensioni con il cmd
+```{r}
+PS C:\Users\satta> cd "G:\Altri computer\Il_mio_computer\DOTTORATO\PROGETTI\OLIVASTRO_PAULILATINO\Immagini_Planet\MERGE"
+
+PS G:\Altri computer\Il_mio_computer\DOTTORATO\PROGETTI\OLIVASTRO_PAULILATINO\Immagini_Planet\MERGE> git init
+
+PS G:\Altri computer\Il_mio_computer\DOTTORATO\PROGETTI\OLIVASTRO_PAULILATINO\Immagini_Planet\MERGE> git lfs install
+
+PS G:\Altri computer\Il_mio_computer\DOTTORATO\PROGETTI\OLIVASTRO_PAULILATINO\Immagini_Planet\MERGE> git lfs track '*.tif'
+
+PS G:\Altri computer\Il_mio_computer\DOTTORATO\PROGETTI\OLIVASTRO_PAULILATINO\Immagini_Planet\MERGE> git add .
+
+PS G:\Altri computer\Il_mio_computer\DOTTORATO\PROGETTI\OLIVASTRO_PAULILATINO\Immagini_Planet\MERGE> git commit -m "Add tif files"
+
+
+PS G:\Altri computer\Il_mio_computer\DOTTORATO\PROGETTI\OLIVASTRO_PAULILATINO\Immagini_Planet\MERGE> git remote add origin https://github.com/gsatta/Experimental_plots_VI.git
+
+PS G:\Altri computer\Il_mio_computer\DOTTORATO\PROGETTI\OLIVASTRO_PAULILATINO\Immagini_Planet\MERGE> git push origin main
+```
+
